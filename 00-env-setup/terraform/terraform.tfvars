@@ -1,7 +1,7 @@
-project_id = "jk-vertex-workshop"
+project_id = "CHANGE THIS WITH YOUR PROJECT ID e.g. from Qwiklabs console"
 subnet_region = "us-central1"
 zone = "us-central1-a"
-name_prefix = "jkvw"
+name_prefix = "CHANGE THIS WITH YOUR STRING e.g. your initials"
 machine_type = "n1-standard-8"
 #gpu_type = "NVIDIA_TESLA_T4"
 #gpu_count = 1
