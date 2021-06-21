@@ -7,8 +7,39 @@ The scripts perform the following actions:
 2. Create a regional GCS bucket
 3. Create an instance of Vertex Notebooks
 4. Create service accounts for Vertex Training and Vertex Pipelines
+5. Create an instance of Vertex Tensorboard
 
-You can customize your configuration using the following variables:
+## Provision Environment
+
+To provision the environment:
+
+- Open Cloud Shell
+
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/RajeshThallam/vertex-ai-labs.git)
+
+
+- Navigate to `~/vertex-ai-labs/00-env-setup/terraform`
+```
+LOCAL_DIR=~/vertex-ai-labs
+cd $LOCAL_DIR/terraform
+```
+
+- Update the `terraform.tfvars` file with the values reflecting your environment (refer [Customize Configuration](#Customize-Configuration) to understand the variables for customization). Alternatively, you can provide the values using the Terraform CLI `-var` options when you execute `terraform apply` in the next step.
+
+- Execute the following commands. :
+```
+terraform init
+terraform apply
+```
+
+- To destroy the environment, execute:
+```
+terraform destroy
+```
+
+## Customize Configuration
+
+You can customize your configuration using the following variables in `terraform.tfvars`:
 
 |Variable|Required|Default|Description|
 |--------|--------|-------|-----------|
@@ -26,30 +57,3 @@ You can customize your configuration using the following variables:
 |install_gpu_driver|No|false|Whether to install a GPU driver|
 |region|No|Set to subnet_region.|GCP region for the GCS bucket and Artifact Registry. It is recommended that the same region is used for all: the bucket, the registry and the Notebook instance. If not provided the `egion` will be set to `subnet_region`.|
 |force_destroy|No|false|Whether to force the removal of the bucket on terraform destroy. **Note that by default the bucket will not be destroyed**.|
-
-
-To provision the environment:
-
-- Open [Cloud Shell](https://cloud.google.com/shell/docs/launching-cloud-shell)
-
-- Download the installation scripts
-```
-SRC_REPO=https://github.com/jarokaz/vertex-ai-workshop
-LOCAL_DIR=vertex-ai-env-setup
-kpt pkg get $SRC_REPO/env-setup/instructor@main $LOCAL_DIR
-cd $LOCAL_DIR/terraform
-```
-
-- Update the `terraform.tfvars` file with the values reflecting your environment. Alternatively, you can provide the values using the Terraform CLI `-var` options when you execute `terraform apply` in the next step
-
-- Execute the following commands. :
-```
-terraform init
-terraform apply
-```
-
-
-To destroy the environment, execute:
-```
-terraform destroy
-```

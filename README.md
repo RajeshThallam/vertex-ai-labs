@@ -3,6 +3,8 @@
 
 **Hands-on labs introducing GCP Vertex AI features**
 
+These labs introduce following components of Vertex AI
+
 - Vertex Notebooks
 - Vertex AI Training
     - Using pre-built and custom containers
@@ -13,14 +15,32 @@
 - Vertex Tensorboard
 - Vertex ML Metadata
 
+![Labs Focus](./images/vertex-ai-labs-focus.png)
+
 
 ## Environment Setup
 
-The following section describes requirements for setting up a GCP environment required for the workshop. Note that we have provided example [Terraform](https://www.terraform.io/) scripts to automate the process. You can find the scripts and the instructions in the `env-setup` folder.
+The following section describes requirements for setting up a GCP environment required for the workshop. Note that we have provided example [Terraform](https://www.terraform.io/) scripts to automate the process. You can find the scripts and the instructions in the `00-env-setup` folder. These are prerequisites for running the labs.
 
 ### GCP Project
 
-Ideally each participant should have their own sandbox GCP project. If this is not feasible, multiple participants can share a single project but other resources used during the labs like GCS buckets should be created for each participant. See below for details. You need to be a project owner to complete some of the setup steps.
+Each participant should have their own GCP project (through Qwiklabs) with project owner permissions to complete the setup steps.
+
+The setup performs following asks
+
+ 1. Activate Google Cloud APIs required for the labs.
+ 2. Create service accounts required for running the labs.
+ 3. Create Google Cloud Storage bucket in the region configured (we will be using `us-central1`)
+ 4. Create a Vertex Notebooks instance to provision a managed JupyterLab notebook instance.
+ 5. Create a Vertex Tensorboard instance to monitor the experiments run as part of the lab.
+
+---
+
+Please navigate to [00-env-setup](./00-env-setup/README.md) to setup the environment.
+
+---
+
+Following are the details of the setup to run the labs:
 
 ### Cloud APIs
 
@@ -92,7 +112,7 @@ Each participant should have any instance of Vertex AI Notebook. The instances c
 The instance should be configured as follows:
 
 - Machine type: **n1-standard-4**
-- Optionally a T4 GPU can be added to the machine configuration if participants want to experiment with GPUs
+- Optionally GPUs can be added to the machine configuration if participants want to experiment with GPUs
 - Image family: **tf-2-4-cpu** or **tf-2-4-cu110** (if using GPUs)
 - Configured with the default compute engine service account
 
@@ -111,24 +131,11 @@ pip install --user google-cloud-pipeline-components
 pip install --user google-cloud-bigquery-datatransfer
 ```
 
-##### Create a Tensorboard instance
+##### Vertex Tensorboard instance
 
-Each participant will use their own Vertex Tensorboard instance.
+Each project will have their own Vertex Tensorboard instance created (by the script) in the region configured.
 
-```
-PROJECT=jk-vertex-workshop
-REGION=us-central1
-PREFIX=jkvw
-DISPLAY_NAME=${PREFIX}-tensorboard
-
-gcloud beta ai tensorboards create --display-name $DISPLAY_NAME \
-  --project $PROJECT --region $REGION
-
-```
-
-Save the tensorboard name returned by the command as it will be needed when configuring the workshop notebooks.
-
-You can get it at any time by listing Tensorboards in the project
+You can get the Tensorboard instance names at any time by listing Tensorboards in the project
 
 ```
 gcloud beta ai tensorboards list \
@@ -137,10 +144,10 @@ gcloud beta ai tensorboards list \
 
 ##### Clone this repo
 ```
-git clone https://github.com/jarokaz/vertex-ai-workshop
+git clone https://github.com/RajeshThallam/vertex-ai-labs
 ```
 
 
-#### References:
+## References:
 
 - https://github.com/jarokaz/vertex-ai-workshop/

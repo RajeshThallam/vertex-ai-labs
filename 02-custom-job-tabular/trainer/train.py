@@ -1,5 +1,4 @@
 
-
 # Copyright 2021 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +28,6 @@ from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow_io import bigquery as tfio_bq
 
 from tensorboard.plugins.hparams import api as tb_hp
-
 
 FLAGS = flags.FLAGS
 flags.DEFINE_integer('epochs', 3, 'Nubmer of epochs')
@@ -247,7 +245,7 @@ def main(argv):
     
     # Start training
     logging.info('Starting training ...')
-    model.fit(training_ds, 
+    history = model.fit(training_ds, 
               epochs=FLAGS.epochs, 
               validation_data=validation_ds,
               callbacks=callbacks)
