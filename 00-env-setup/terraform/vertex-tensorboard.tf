@@ -18,9 +18,9 @@ module tensorboard {
 
   platform = "linux"
 
-  create_cmd_entrypoint  = "gcloud"
+  create_cmd_entrypoint  = "printf 'yes' | gcloud"
   create_cmd_body        = "beta ai tensorboards create --display-name ${var.name_prefix}-${var.subnet_region}-tensorboard --project ${var.project_id} --region ${var.subnet_region}"
-  destroy_cmd_entrypoint = "gcloud"
+  destroy_cmd_entrypoint = "printf 'yes' | gcloud"
   destroy_cmd_body       = "beta ai tensorboards delete $(gcloud beta ai tensorboards list --region ${var.subnet_region} --filter='displayName:${var.name_prefix}-${var.subnet_region}-tensorboard' --format='value(name)' --project ${var.project_id})"
   
   depends_on = [module.project-services.api_activated]

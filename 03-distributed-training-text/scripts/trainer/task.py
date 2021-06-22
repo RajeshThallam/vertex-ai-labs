@@ -34,11 +34,11 @@ flags.DEFINE_integer('steps_per_epoch', 625, 'Steps per training epoch')
 flags.DEFINE_integer('eval_steps', 150, 'Evaluation steps')
 flags.DEFINE_integer('epochs', 2, 'Nubmer of epochs')
 flags.DEFINE_integer('per_replica_batch_size', 32, 'Per replica batch size')
-flags.DEFINE_string('training_data_path', f'{STAGING_BUCKET}/bert-finetuning/imdb/tfrecords/train', 'Training data GCS path')
-flags.DEFINE_string('validation_data_path', f'{STAGING_BUCKET}/bert-finetuning/imdb/tfrecords/valid', 'Validation data GCS path')
-flags.DEFINE_string('testing_data_path', f'{STAGING_BUCKET}/bert-finetuning/imdb/tfrecords/test', 'Testing data GCS path')
+flags.DEFINE_string('training_data_path', f'/bert-finetuning/imdb/tfrecords/train', 'Training data GCS path')
+flags.DEFINE_string('validation_data_path', f'/bert-finetuning/imdb/tfrecords/valid', 'Validation data GCS path')
+flags.DEFINE_string('testing_data_path', f'/bert-finetuning/imdb/tfrecords/test', 'Testing data GCS path')
 
-flags.DEFINE_string('job_dir', f'{STAGING_BUCKET}/jobs', 'A base GCS path for jobs')
+flags.DEFINE_string('job_dir', f'/jobs', 'A base GCS path for jobs')
 flags.DEFINE_enum('strategy', 'multiworker', ['mirrored', 'multiworker'], 'Distribution strategy')
 flags.DEFINE_enum('auto_shard_policy', 'auto', ['auto', 'data', 'file', 'off'], 'Dataset sharing strategy')
 
@@ -154,6 +154,8 @@ def main(argv):
     logging.info('   eval_steps: {}'.format(FLAGS.eval_steps))
     logging.info('   strategy: {}'.format(FLAGS.strategy))
     
+    tb_dir = os.getenv('AIP_TENSORBOARD_LOG_DIR', LOCAL_TB_FOLDER)
+    
     if FLAGS.strategy == 'mirrored':
         strategy = tf.distribute.MirroredStrategy()
     else:
@@ -202,7 +204,7 @@ def main(argv):
     # Configure TensorBoard callback on Chief
     if _is_chief(task_type, task_id):
         callbacks.append(tf.keras.callbacks.TensorBoard(
-            log_dir=LOCAL_TB_FOLDER, update_freq='batch'))
+            log_dir=tb_dir, update_freq='batch'))
     
     logging.info('Starting training ...')
     
@@ -215,9 +217,9 @@ def main(argv):
 
     if _is_chief(task_type, task_id):
         # Copy tensorboard logs to GCS
-        tb_logs = '{}/tb_logs'.format(FLAGS.job_dir)
-        logging.info('Copying TensorBoard logs to: {}'.format(tb_logs))
-        copy_tensorboard_logs(LOCAL_TB_FOLDER, tb_logs)
+        # tb_logs = '{}/tb_logs'.format(FLAGS.job_dir)
+        # logging.info('Copying TensorBoard logs to: {}'.format(tb_logs))
+        # copy_tensorboard_logs(LOCAL_TB_FOLDER, tb_logs)
         saved_model_dir = '{}/saved_model'.format(FLAGS.job_dir)
     else:
         saved_model_dir = LOCAL_SAVED_MODEL_DIR
