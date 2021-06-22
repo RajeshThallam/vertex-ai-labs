@@ -1,0 +1,15 @@
+{"instances" : [  
+    {
+        "dropoff_grid": ["POINT(-87.6 41.9)"],
+        "euclidean": [2064.2696],
+        "payment_type": ["Credit Card"],
+        "pickup_grid": ["POINT(-87.6 41.9)"],
+        "trip_miles": [1.37],
+        "trip_day": [12],
+        "trip_hour": [16],
+        "trip_month": [2],
+        "trip_day_of_week": [4],
+        "trip_seconds": [555]
+    }
+]
+}

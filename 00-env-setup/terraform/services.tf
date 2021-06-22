@@ -37,3 +37,7 @@ module "project-services" {
     "bigquerydatatransfer.googleapis.com",
   ]
 }
+
+output "api_activated" {
+    value = true
+}
