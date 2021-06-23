@@ -226,7 +226,7 @@ def main(argv):
         saved_model_dir = model_dir
         
     # Save trained model
-    saved_model_dir = '{}/saved_model'.format(FLAGS.job_dir)
+    saved_model_dir = '{}/saved_model'.format(model_dir)
     logging.info('Training completed. Saving the trained model to: {}'.format(saved_model_dir))
     model.save(saved_model_dir)
     #tf.saved_model.save(model, saved_model_dir)
