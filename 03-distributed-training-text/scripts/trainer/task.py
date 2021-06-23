@@ -155,6 +155,7 @@ def main(argv):
     logging.info('   strategy: {}'.format(FLAGS.strategy))
     
     tb_dir = os.getenv('AIP_TENSORBOARD_LOG_DIR', LOCAL_TB_FOLDER)
+    model_dir = os.getenv('AIP_MODEL_DIR', LOCAL_MODEL_DIR)
     
     if FLAGS.strategy == 'mirrored':
         strategy = tf.distribute.MirroredStrategy()
@@ -220,9 +221,9 @@ def main(argv):
         # tb_logs = '{}/tb_logs'.format(FLAGS.job_dir)
         # logging.info('Copying TensorBoard logs to: {}'.format(tb_logs))
         # copy_tensorboard_logs(LOCAL_TB_FOLDER, tb_logs)
-        saved_model_dir = '{}/saved_model'.format(FLAGS.job_dir)
+        saved_model_dir = '{}/saved_model'.format(model_dir)
     else:
-        saved_model_dir = LOCAL_SAVED_MODEL_DIR
+        saved_model_dir = model_dir
         
     # Save trained model
     saved_model_dir = '{}/saved_model'.format(FLAGS.job_dir)
