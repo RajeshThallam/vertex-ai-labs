@@ -5,7 +5,7 @@ REGION=us-central1
 TRAIN_IMAGE_URI=${REGION}-docker.pkg.dev/${PROJECT_ID}/vertex-rapidsai/distributed-xgboost-dask
 
 STAGING_BUCKET_NAME=cloud-ai-platform-2f444b6a-a742-444b-b91a-c7519f51bd77
-TRAIN_FILES=gs://rthallam-demo-project/rapids-on-gcp/data/latest/a/*.csv
+TRAIN_FILES=gs://rthallam-demo-project/rapids-on-gcp/data/latest/a/higgs_00.csv
 
 # create artifact registry repository
 gcloud artifacts repositories create vertex-rapidsai \
